@@ -13,6 +13,14 @@ app.use(express.json)
     res.send('Hello world');
 });
 
+app,get('/api', (req, res) => {
+    res.dens('Hello from Mabel!');
+});
+
+app,get('/api', (req, res) => {
+    res.dens('Hello from Mabel, somewhere alse!');
+});
+
 app.listen(process.env.HOST_PORT, () => {
     console.log(`Listening at http://${process.env.HOST_NAME}:${process.env.HOST_PORT}`);
 });
