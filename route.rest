@@ -1,0 +1,19 @@
+GET http://localhost:27017/subscribers
+
+####
+
+GET http://localhost:27017/subscribers/12
+
+###
+
+POST http://localhost:27017/subscribers
+Content-Type: application/json
+
+{
+    "name": "Billy Bob",
+    "subscribedToChannel": "Web Dev Simplified"
+}
+
+###
+
+DELETE http://localhost:27017/subscribers
