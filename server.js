@@ -1,26 +1,21 @@
-require('dotenv').config();
-const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
-const app = express();
+const express = require('express')
+const mongoose = require('mongoose')
+const app = express()
 
-// Middleware 
-app.use(helmet());
-app.use(cors());
-app.use(express.json)
+app.listen(3000, () => console.log('Server Started'))
+const url = 'mongodb+srv://Sheila:password!1@mycluster.nz5xh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
-;app.get('/', (req, res) => {
-    res.send('Hello world');
-});
+const connectionParams={
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+}
+mongoose.connect(url)
+    .then( () => {
+        console.log('Connected to the Database')
+    })
 
-app,get('/api', (req, res) => {
-    res.dens('Hello from Mabel!');
-});
+    app.use(express.json())
 
-app,get('/api', (req, res) => {
-    res.dens('Hello from Mabel, somewhere alse!');
-});
-
-app.listen(process.env.HOST_PORT, () => {
-    console.log(`Listening at http://${process.env.HOST_NAME}:${process.env.HOST_PORT}`);
-});
+    const subscribersRouter = require('./routes/subscribers')
+    app.use('/subscribers', subscribersRouter)
