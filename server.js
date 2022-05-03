@@ -18,4 +18,8 @@ mongoose.connect(url)
     app.use(express.json())
 
     const subscribersRouter = require('./routes/subscribers')
+<<<<<<< HEAD
     app.use('/subscribers', subscribersRouter)
+=======
+    app.use('/subscribers', subscribersRouter)
+>>>>>>> a2e93bb4feeebea4a64b1b56559f0b18fadee37f
