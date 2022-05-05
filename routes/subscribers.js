@@ -15,7 +15,7 @@ router.get('/', async (_req,res) => {
     }
 })
 // Getting one
-router.get('/update/:id', (req, res) => {
+router.get('/:id', (req, res) => {
  res.send(req.params.id)
     res.json(res.subscriber)  
 })
