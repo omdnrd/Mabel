@@ -1,9 +1,9 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const app = express()
+const server = express()
 
-app.listen(3000, () => console.log('Server Started'))
-const url = 'mongodb+srv://Sheila:password!1@mycluster.nz5xh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+server.listen(3000, () => console.log('Server Started'))
+const url = 'mongodb+srv://admin:AclvbpmtzXBZcr13@cluster0.avseh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
 const connectionParams={
     useNewUrlParser: true,
@@ -15,7 +15,7 @@ mongoose.connect(url)
         console.log('Connected to the Database')
     })
 
-    app.use(express.json())
+    server.use(express.json())
 
     const subscribersRouter = require('./routes/subscribers')
-    app.use('/subscribers', subscribersRouter)
+    server.use('/subscribers', subscribersRouter)
