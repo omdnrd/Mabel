@@ -1,21 +1,22 @@
+const { application } = require('express')
 const express = require('express')
 const mongoose = require('mongoose')
-const server = express()
-
-server.listen(3000, () => console.log('Server Started'))
 const url = 'mongodb+srv://admin:AclvbpmtzXBZcr13@cluster0.avseh.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
-const connectionParams={
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true
-}
-mongoose.connect(url)
-    .then( () => {
-        console.log('Connected to the Database')
-    })
+const server = express()
 
-    server.use(express.json())
+mongoose.connect(url, {useNewUrlPareser:true})
+const con = mongoose.connection
 
-    const subscribersRouter = require('./routes/subscribers')
-    server.use('/subscribers', subscribersRouter)
+con.on('open', () => {
+    console.log('Connected!')
+})
+    
+server.use(express.json())
+
+const familyRouter = require('./routes/family')
+server.use('/family', familyRouter)
+
+server.listen(3000, () => {
+    console.log('Server Started')
+})
