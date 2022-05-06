@@ -1,20 +1,17 @@
 const mongoose = require('mongoose')
 
 const familySchema = new mongoose.Schema({
-    name: {
-    type: String,
-    required: true
-},
-tech: {
-    type: String,
-    required: true
 
-},
-sub: {
-    type: Boolean,
-    required: true,
-    default: false
-}
+    familyName: String,
+    //amount: //[
+        //{
+            //date: String,
+            //payment: Number
+        //}
+    //],
+    date: Number,
+    status: Boolean,
+    term: Number,
 })
 
-module.exports = mongoose.model('Family', subscriberSchema)
+module.exports = mongoose.model('Family', familySchema)

@@ -1,0 +1,45 @@
+const express = require('express')
+const router = express.Router()
+const income = require('../models/income')
+
+//Creating One
+router.post('/', (req, res)=>{
+
+    const post = new income({
+        family: req.body.family,
+        amount: req.body.amount,
+        date: req.body.date
+    })
+
+    res.send(post);
+
+    post.save()
+    .then(data =>{
+        res.json(data)
+    })
+    .catch(err => {
+        res.json(err);
+    })
+})
+
+//Getting One
+router.get('/:incomeId', (req, res) =>{
+    income.findById(req.params.incomeId).then(data=>{
+        res.send(JSON.stringify(data));
+    })
+})
+
+
+//Getting All
+router.get('/', async (req,res) => {
+
+    try {
+        const incomes = await income.find()
+        res.json(incomes)
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
+
+
+module.exports = router
