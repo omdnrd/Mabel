@@ -41,5 +41,45 @@ router.get('/', async (req,res) => {
     }
 })
 
+// Updating One
+//figure out why this is not working
+router.patch('/:id', getIncome, async (req, res) => {
+    if (req.body.amount != null) {
+        res.income.amount = req.body.amount
+    }
+    try {
+        const updatedIncome = await res.income.save()
+        res.json(updatedIncome)
+    } catch (err) {
+        res.status(400).json({ message: err.message})
+    }
+})
+//Deleting One
+router.delete('/:id', getIncome, async (req, res) => {
+    try {
+        await res.income.remove()
+        res.json({ message: 'Deleted Income' })
+    } catch (err) {
+        res.status(500).json({ message: err.message })
+    }
+})
+
+
+async function getIncome(req, res, next) {
+    let Income
+    try {
+        Income = await income.findById(req.params.id)
+        if (income == null) {
+            return res.status(404).json({ message: 'Cannot find Income '})
+    }
+}   catch (err) {
+    return res.status(500).json({ message: err.message })
+        
+    }
+
+    res. income = income
+    next()
+}
+
 
 module.exports = router
