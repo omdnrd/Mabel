@@ -11,14 +11,15 @@ router.post('/', (req, res)=>{
         date: req.body.date
     })
 
-    res.send(post);
+    //Did not need this as it was giving error [ERR_HEADERS_SENT]
+    //res.send(post);
 
-    post.save()
-    .then(data =>{
-        res.json(data)
-    })
-    .catch(err => {
-        res.json(err)
+    post.save().then(data =>{
+        return res.json(data)
+    }).catch(err => {
+        return res.json(err).send({
+            message:err.message|| "some error occured"
+        });
     })
 })
 
@@ -55,7 +56,7 @@ router.patch('/:id', getExpense, async (req, res) => {
 //Deleting One
 router.delete('/:id', getExpense, async (req, res) => {
     try {
-        await res.expense.remove()
+        await expense.findByIdAndDelete({_id:req.params.id})
         res.json({ message: 'Deleted Expense' })
     } catch (err) {
         res.status(500).json({ message: err.message })

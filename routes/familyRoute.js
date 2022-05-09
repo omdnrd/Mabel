@@ -17,14 +17,15 @@ router.post('/', (req, res)=>{
         term: req.body.term
     })
 
-    res.send(post);
+    //Did not need this as it was giving error [ERR_HEADERS_SENT]
+    //res.send(post)
 
-    post.save()
-    .then(data =>{
-        res.json(data)
-    })
-    .catch(err => {
-        res.json(err)
+    post.save().then(data =>{
+        return res.json(data);
+    }).catch(err => {
+        return res.json(err).send({
+            message:err.message|| "some error occured"
+        });
     })
 })
 
@@ -45,10 +46,23 @@ router.get('/', async (req,res) => {
         res.status(500).json({ message: err.message })
     }
 })
+
+// Updating One
+router.patch('/:id', getFamily, async (req, res) => {
+    if (req.body.amount != null) {
+        res.expense.amount = req.body.amount
+    }
+    try {
+        const updatedFamily = await res.expense.save()
+        res.json(updatedFamily)
+    } catch (err) {
+        res.status(400).json({ message: err.message})
+    }
+})
 //Deleting One
 router.delete('/:id', getFamily, async (req, res) => {
     try {
-        await res.family.remove()
+        await family.findByIdAndDelete({_id:req.params.id})
         res.json({ message: 'Deleted Family' })
     } catch (err) {
         res.status(500).json({ message: err.message })

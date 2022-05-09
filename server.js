@@ -1,5 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
+var cors = require('cors')
+
 
 //const MongoClient = require('MongoClient')
 const url = 'mongodb+srv://admin:AclvbpmtzXBZcr13@cluster0.avseh.mongodb.net/appProject?retryWrites=true&w=majority'
@@ -40,4 +42,9 @@ server.use('/api/income', incomeRouter)
 
 server.listen(3000, () => {
     console.log('Server Started')
+    
 })
+
+server.use(cors());
+
+
