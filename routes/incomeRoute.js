@@ -58,7 +58,7 @@ router.patch('/:id', getIncome, async (req, res) => {
 //Deleting One
 router.delete('/:id', getIncome, async (req, res) => {
     try {
-        await res.income.remove()
+        await res.income.findByIdAndRemove(req.params.id)
         res.json({ message: 'Deleted Income' })
     } catch (err) {
         res.status(500).json({ message: err.message })
