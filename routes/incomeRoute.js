@@ -8,7 +8,7 @@ router.post('/', (req, res)=>{
     const post = new income({
         family: req.body.family,
         amount: req.body.amount,
-        date: req.body.date
+        Date: req.body.Date
     })
 
     //Did not need this as it was giving error [ERR_HEADERS_SENT]
