@@ -56,7 +56,7 @@ router.patch('/:id', getExpense, async (req, res) => {
 //Deleting One
 router.delete('/:id', getExpense, async (req, res) => {
     try {
-        await expense.findByIdAndDelete({_id:req.params.id})
+        await res.expense.remove()
         res.json({ message: 'Deleted Expense' })
     } catch (err) {
         res.status(500).json({ message: err.message })
