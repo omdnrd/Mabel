@@ -10,7 +10,7 @@ const familySchema = new mongoose.Schema({
         //}
     //],
     date: Number,
-    status: Boolean,
+    status: String,
     term: Number,
 })
 

@@ -6,12 +6,14 @@ const family = require('../models/family')
 //Creating One 
 router.post('/', (req, res)=>{
 
-   let obj = {
-        date: req.body.date,
-        payment: req.body.payment
-     }
+   //let obj = {
+        //date: req.body.date,
+        //payment: req.body.payment
+     //}
+
+   
     const post = new family({
-        familyName: req.body.familyName,
+        familyName: req.body.name,
         //amount: , need to see how to append this array
         status: req.body.status,
         term: req.body.term
