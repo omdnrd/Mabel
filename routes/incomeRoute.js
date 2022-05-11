@@ -1,4 +1,5 @@
 const express = require('express')
+const res = require('express/lib/response')
 const router = express.Router()
 const income = require('../models/income')
 
@@ -23,13 +24,24 @@ router.post('/', (req, res)=>{
     })
 })
 
+router.get('/getAllIncome', async (req, res) => {
+    const allIncomes = await income.find()
+
+    let totalIncome = 0
+
+    allIncomes.forEach(income => {
+        totalIncome += income.amount
+    })
+
+    res.json({ totalIncome })
+})
+
 //Getting One
-router.get('/:incomeId', (req, res) =>{
+router.get('/:incomeId', getIncome, (req, res) =>{
     income.findById(req.params.incomeId).then(data=>{
         res.send(JSON.stringify(data));
     })
 })
-
 
 //Getting All
 router.get('/', async (req,res) => {
@@ -70,7 +82,7 @@ async function getIncome(req, res, next) {
     let Income
     try {
         Income = await income.findById(req.params.id)
-        if (income == null) {
+        if (Income == null) {
             return res.status(404).json({ message: 'Cannot find Income '})
     }
 }   catch (err) {
