@@ -57,8 +57,9 @@ router.get('/', async (req,res) => {
 // Updating One
 //figure out why this is not working
 router.patch('/:id', getIncome, async (req, res) => {
-    if (req.body.amount != null) {
-        res.income.amount = req.body.amount
+    if (req.body.amount == null) {
+        res.status(400).json({ message: "Income Required"})
+        return;    
     }
     try {
         const updatedIncome = await income.findByIdAndUpdate({_id:req.params.id},req.body)

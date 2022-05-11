@@ -43,11 +43,12 @@ router.get('/', async (req,res) => {
 
 // Updating One
 router.patch('/:id', getExpense, async (req, res) => {
-    if (req.body.amount != null) {
-        res.expense.amount = req.body.amount
+    if (req.body.amount == null) {
+        res.status(400).json({ message: "Expense Required"})
+        return;
     }
     try {
-        const updatedExpense = await res.expense.save()
+        const updatedExpense = await expense.findByIdAndUpdate(req.params.id, req.body)
         res.json(updatedExpense)
     } catch (err) {
         res.status(400).json({ message: err.message})
@@ -68,7 +69,7 @@ async function getExpense(req, res, next) {
     let Expense
     try {
         Expense = await expense.findById(req.params.id)
-        if (expense == null) {
+        if (Expense == null) {
             return res.status(404).json({ message: 'Cannot find Expense '})
     }
 }   catch (err) {
