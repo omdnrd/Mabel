@@ -51,11 +51,12 @@ router.get('/', async (req,res) => {
 
 // Updating One
 router.patch('/:id', getFamily, async (req, res) => {
-    if (req.body.amount != null) {
-        res.expense.amount = req.body.amount
+    if (req.body.familyName == null) {
+        res.status(400).json({ message: "Family Name Required"})
+        return;
     }
     try {
-        const updatedFamily = await res.expense.save()
+        const updatedFamily = await family.findByIdAndUpdate(req.params.id, req.body)
         res.json(updatedFamily)
     } catch (err) {
         res.status(400).json({ message: err.message})
@@ -75,7 +76,7 @@ async function getFamily(req, res, next) {
     let Family
     try {
         Family = await family.findById(req.params.id)
-        if (family == null) {
+        if (Family == null) {
             return res.status(404).json({ message: 'Cannot find Family '})
     }
 }   catch (err) {
