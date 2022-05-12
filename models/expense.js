@@ -8,7 +8,7 @@ const expenseSchema = new mongoose.Schema({
     Date: {
         type: Date,
         required: true,
-        default: Date.now
+        default: Date.now()
     }
 })
 
