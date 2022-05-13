@@ -1,4 +1,5 @@
 const express = require('express')
+const res = require('express/lib/response')
 const router = express.Router()
 const expense = require('../models/expense')
 // Creating One 
@@ -23,8 +24,20 @@ router.post('/', (req, res)=>{
     })
 })
 
+router.get('/getAllExpense', async (req, res) => {
+    const allExpenses = await expense.find()
+
+    let totalExpense = 0
+
+    allExpenses.forEach(expense => {
+        totalExpense += expense.amount
+    })
+
+    res.json({ totalExpense })
+})
+
 //Getting One
-router.get('/:expenseId', (req, res) =>{
+router.get('/:expenseId', getExpense, (req, res) =>{
     expense.findById(req.params.expenseId).then(data=>{
         res.send(JSON.stringify(data));
     })
