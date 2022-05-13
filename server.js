@@ -1,26 +1,51 @@
-require('dotenv').config();
-const express = require('express');
-const helmet = require('helmet');
-const cors = require('cors');
-const app = express();
+const express = require('express')
+const mongoose = require('mongoose')
+var cors = require('cors')
 
-// Middleware 
-app.use(helmet());
-app.use(cors());
-app.use(express.json)
 
-;app.get('/', (req, res) => {
-    res.send('Hello world');
-});
+//const MongoClient = require('MongoClient')
+const url = 'mongodb+srv://admin:AclvbpmtzXBZcr13@cluster0.avseh.mongodb.net/appProject?retryWrites=true&w=majority'
 
-app,get('/api', (req, res) => {
-    res.dens('Hello from Mabel!');
-});
+const server = express()
 
-app,get('/api', (req, res) => {
-    res.dens('Hello from Mabel, somewhere alse!');
-});
+//middlewear to append cors headers to responses
+//update to match the domain you will make the request from
+server.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "http://localhost:4200"); // update to match the domain you will make the request from
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header('Access-Control-Allow-Methods', 'GET, PATCH, PUT, POST, DELETE, OPTIONS');
+    next();
+  });
 
-app.listen(process.env.HOST_PORT, () => {
-    console.log(`Listening at http://${process.env.HOST_NAME}:${process.env.HOST_PORT}`);
-});
+
+mongoose.connect(url)
+const con = mongoose.connection
+
+con.on('open', () => {
+    console.log('Connected!')
+})
+    
+server.use(express.json());
+//not sure what this is for
+server.use(express.urlencoded({
+    extended: true
+}));
+
+//see if i should use somehting else instead of '/api/family'
+const familyRouter = require('./routes/familyRoute')
+server.use('/api/family', familyRouter)
+
+const expenseRouter = require('./routes/expenseRoute')
+server.use('/api/expense', expenseRouter)
+
+const incomeRouter = require('./routes/incomeRoute')
+server.use('/api/income', incomeRouter)
+
+server.listen(3000, () => {
+    console.log('Server Started')
+    
+})
+
+server.use(cors());
+
+
